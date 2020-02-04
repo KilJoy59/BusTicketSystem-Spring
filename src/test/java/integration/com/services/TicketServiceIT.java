@@ -28,15 +28,6 @@ public class TicketServiceIT {
     private TicketRepository ticketRepository;
 
     @Test
-    public void findOneTicketNoEntity() {
-        //When
-        Ticket ticket = ticketService.findOne(1);
-
-        //Then
-        Assert.assertEquals(null, ticket);
-    }
-
-    @Test
     public void findOneTicketWithEntity() {
         //Given
         Ticket ticket = new Ticket(1, 90);
