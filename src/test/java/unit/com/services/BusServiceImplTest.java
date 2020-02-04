@@ -4,7 +4,7 @@ import com.entity.Bus;
 import com.entity.Driver;
 import com.repositories.BusRepository;
 import com.repositories.DriverRepository;
-import com.services.BusServiceImpl;
+import com.services.BusService;
 import com.services.RequestValidator;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public class BusServiceImplTest {
     private DriverRepository driverRepository = mock(DriverRepository.class);
     private RequestValidator requestValidator = mock(RequestValidator.class);
 
-    private BusServiceImpl busService = new BusServiceImpl();
+    private BusService busService = new BusService();
 
     @Before
     public void start() {
@@ -59,8 +59,8 @@ public class BusServiceImplTest {
         bus2.setDriver(driver);
 
         //When
-        when(busRepository.findOne(1)).thenReturn(bus1);
-        when(driverRepository.findOne(1)).thenReturn(driver);
+        when(busRepository.findById(1)).thenReturn(java.util.Optional.of(bus1));
+        when(driverRepository.findById(1)).thenReturn(java.util.Optional.of(driver));
         when(busRepository.save(bus1)).thenReturn(bus2);
 
         //Then
@@ -74,7 +74,7 @@ public class BusServiceImplTest {
         bus.setId(1);
 
         //When
-        when(busRepository.findOne(1)).thenReturn(bus);
+        when(busRepository.findById(1)).thenReturn(java.util.Optional.of(bus));
 
         //Then
         Assert.assertEquals(bus, busService.findOne(1));

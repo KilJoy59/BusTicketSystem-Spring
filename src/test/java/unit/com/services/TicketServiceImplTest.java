@@ -2,7 +2,7 @@ package unit.com.services;
 
 import com.entity.Ticket;
 import com.repositories.TicketRepository;
-import com.services.TicketServiceImpl;
+import com.services.TicketService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class TicketServiceImplTest {
 
     private TicketRepository ticketRepository = mock(TicketRepository.class);
 
-    private TicketServiceImpl ticketService = new TicketServiceImpl();
+    private TicketService ticketService = new TicketService();
 
     @Before
     public void start() {
@@ -30,7 +30,7 @@ public class TicketServiceImplTest {
         ticket.setId(1);
 
         //When
-        when(ticketRepository.findOne(1)).thenReturn(ticket);
+        when(ticketRepository.findById(1)).thenReturn(java.util.Optional.of(ticket));
 
         //Then
         Assert.assertEquals(ticket, ticketService.findOne(1));

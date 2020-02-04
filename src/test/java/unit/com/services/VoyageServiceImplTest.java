@@ -7,7 +7,7 @@ import com.repositories.BusRepository;
 import com.repositories.TicketRepository;
 import com.repositories.VoyageRepository;
 import com.services.RequestValidator;
-import com.services.VoyageServiceImpl;
+import com.services.VoyageService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class VoyageServiceImplTest {
     private BusRepository busRepository = mock(BusRepository.class);
     private RequestValidator requestValidator = mock(RequestValidator.class);
 
-    private VoyageServiceImpl voyageService = new VoyageServiceImpl();
+    private VoyageService voyageService = new VoyageService();
 
     @Before
     public void start() {
@@ -66,8 +66,8 @@ public class VoyageServiceImplTest {
         voyage1.setBus(bus);
 
         //When
-        when(repository.findOne(1)).thenReturn(voyage);
-        when(busRepository.findOne(1)).thenReturn(bus);
+        when(repository.findById(1)).thenReturn(java.util.Optional.of(voyage));
+        when(busRepository.findById(1)).thenReturn(java.util.Optional.of(bus));
         when(repository.save(voyage)).thenReturn(voyage1);
 
         //Then
@@ -90,8 +90,8 @@ public class VoyageServiceImplTest {
         dbTickets.add(ticket);
 
         //When
-        when(repository.findOne(1)).thenReturn(voyage);
-        when(ticketRepository.save(tickets)).thenReturn(dbTickets);
+        when(repository.findById(1)).thenReturn(java.util.Optional.of(voyage));
+        when(ticketRepository.saveAll(tickets)).thenReturn(dbTickets);
         when(repository.save(voyage)).thenReturn(voyage);
 
         //Then
@@ -124,8 +124,8 @@ public class VoyageServiceImplTest {
                 "   isPaid = true}";
 
         //When
-        when(ticketRepository.findOne(1)).thenReturn(ticket);
-        when(repository.findOne(1)).thenReturn(voyage);
+        when(ticketRepository.findById(1)).thenReturn(java.util.Optional.of(ticket));
+        when(repository.findById(1)).thenReturn(java.util.Optional.of(voyage));
 
         //Then
         Assert.assertEquals(expectedString, voyageService.sellTicket(1, 1));
@@ -138,7 +138,7 @@ public class VoyageServiceImplTest {
         voyage.setId(1);
 
         //When
-        when(repository.findOne(1)).thenReturn(voyage);
+        when(repository.findById(1)).thenReturn(java.util.Optional.of(voyage));
 
         //Then
         Assert.assertEquals(voyage, voyageService.findOne(1));

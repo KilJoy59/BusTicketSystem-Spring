@@ -18,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -99,7 +100,7 @@ public class VoyageRepositoryIT {
         //When
         dbVoyage = voyageRepository.save(dbVoyage);
 
-        busRepository.delete(dbDriver.getId());
+        busRepository.delete(dbDriver);
 
         //Then
         Assert.assertEquals(dbVoyage.getBus(), null);
@@ -160,7 +161,7 @@ public class VoyageRepositoryIT {
         voyage1 = voyageRepository.save(voyage1);
 
         //Then
-        Assert.assertEquals(voyageRepository.findOne(voyage.getId()), voyage1);
+        Assert.assertEquals(voyageRepository.findById(voyage.getId()).get(), voyage1);
     }
 
     @Test
@@ -237,7 +238,7 @@ public class VoyageRepositoryIT {
             tickets.add(new Ticket(i, 2000));
         }
 
-        ticketRepository.save(tickets);
+        ticketRepository.saveAll(tickets);
 
         Voyage voyage = new Voyage("JJD009");
         Integer bdVoyageID = voyageRepository.save(voyage).getId();
@@ -245,14 +246,15 @@ public class VoyageRepositoryIT {
         Set<Ticket> tickets1 = new HashSet<>((ArrayList<Ticket>) ticketRepository.findAll());
         tickets1.iterator().next().setPaid(true);
 
-        Voyage voyage1 = voyageRepository.findOne(bdVoyageID);
+        Voyage voyage1 = voyageRepository.findById(bdVoyageID).orElseThrow(() -> new EntityNotFoundException("Not found"));
         voyage1.setTickets(tickets1);
 
         //When
         voyageRepository.save(voyage1);
 
         //Then
-        Assert.assertEquals(new HashSet<>(voyageRepository.findOne(bdVoyageID).getTickets()),
+        Assert.assertEquals(new HashSet<>(voyageRepository.findById(bdVoyageID)
+                .orElseThrow(() -> new EntityNotFoundException("Not found")).getTickets()),
                 new HashSet<>((ArrayList<Ticket>) ticketRepository.findAll()));
 
     }
@@ -273,7 +275,8 @@ public class VoyageRepositoryIT {
         Integer bdVoyageID = voyageRepository.save(voyage).getId();
 
         //Then
-        Assert.assertNotEquals(new HashSet<>(voyageRepository.findOne(bdVoyageID).getTickets()),
+        Assert.assertNotEquals(new HashSet<>(voyageRepository.findById(bdVoyageID)
+                .orElseThrow(() -> new EntityNotFoundException("Not found")).getTickets()),
                 new HashSet<>((ArrayList<Ticket>) ticketRepository.findAll()));
 
     }

@@ -179,14 +179,6 @@ public class BusServiceIT {
         Assert.fail();
     }
 
-    @Test
-    public void findOneBusNoEntity() {
-        //When
-        Bus actualResult = busService.findOne(1);
-
-        //Then
-        Assert.assertEquals(null, actualResult);
-    }
 
     @Test
     public void findOneBusWithEntity() {

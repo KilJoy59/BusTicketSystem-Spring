@@ -68,7 +68,7 @@ public class RequestValidatorTest {
         Driver driver = new Driver("AKSE", "Niki", "Lauda");
         driver.setId(1);
 
-        when(driverRepository.exists(1)).thenReturn(true);
+        when(driverRepository.existsById(1)).thenReturn(true);
 
         //When
         try {
@@ -142,7 +142,7 @@ public class RequestValidatorTest {
         Bus bus = new Bus("AA8888JJ", "Ferrari");
         bus.setId(1);
 
-        when(busRepository.exists(1)).thenReturn(true);
+        when(busRepository.existsById(1)).thenReturn(true);
 
         //When
         try {
@@ -233,9 +233,9 @@ public class RequestValidatorTest {
         bus.setId(1);
         bus.setDriver(driver);
 
-        when(busRepository.exists(1)).thenReturn(true);
-        when(driverRepository.exists(1)).thenReturn(true);
-        when(busRepository.findOne(1)).thenReturn(bus);
+        when(busRepository.existsById(1)).thenReturn(true);
+        when(driverRepository.existsById(1)).thenReturn(true);
+        when(busRepository.findById(1)).thenReturn(java.util.Optional.of(bus));
 
         //When
         try {
@@ -265,9 +265,9 @@ public class RequestValidatorTest {
         bus1.setId(2);
         bus1.setDriver(driver1);
 
-        when(busRepository.exists(anyInt())).thenReturn(true);
-        when(driverRepository.exists(anyInt())).thenReturn(true);
-        when(busRepository.findOne(anyInt())).thenReturn(new Bus());
+        when(busRepository.existsById(anyInt())).thenReturn(true);
+        when(driverRepository.existsById(anyInt())).thenReturn(true);
+        when(busRepository.findById(anyInt())).thenReturn(java.util.Optional.of(new Bus()));
         when(busRepository.findAll()).thenReturn(Arrays.asList(bus, bus1));
 
         //When
@@ -313,7 +313,7 @@ public class RequestValidatorTest {
         Voyage voyage = new Voyage("TTRREE");
         voyage.setId(1);
 
-        when(voyageRepository.exists(1)).thenReturn(true);
+        when(voyageRepository.existsById(1)).thenReturn(true);
 
         //When
         try {
@@ -404,9 +404,9 @@ public class RequestValidatorTest {
         voyage.setId(1);
         voyage.setBus(bus);
 
-        when(voyageRepository.exists(1)).thenReturn(true);
-        when(busRepository.exists(1)).thenReturn(true);
-        when(voyageRepository.findOne(1)).thenReturn(voyage);
+        when(voyageRepository.existsById(1)).thenReturn(true);
+        when(busRepository.existsById(1)).thenReturn(true);
+        when(voyageRepository.findById(1)).thenReturn(java.util.Optional.of(voyage));
 
         //When
         try {
@@ -436,9 +436,9 @@ public class RequestValidatorTest {
         voyage1.setId(2);
         voyage1.setBus(bus1);
 
-        when(voyageRepository.exists(anyInt())).thenReturn(true);
-        when(busRepository.exists(anyInt())).thenReturn(true);
-        when(voyageRepository.findOne(anyInt())).thenReturn(new Voyage());
+        when(voyageRepository.existsById(anyInt())).thenReturn(true);
+        when(busRepository.existsById(anyInt())).thenReturn(true);
+        when(voyageRepository.findById(anyInt())).thenReturn(java.util.Optional.of(new Voyage()));
         when(voyageRepository.findAll()).thenReturn(Arrays.asList(voyage, voyage1));
 
         //When
@@ -505,8 +505,8 @@ public class RequestValidatorTest {
         voyage.setId(1);
         voyage.setTickets(tickets);
 
-        when(voyageRepository.exists(1)).thenReturn(true);
-        when(ticketRepository.exists(1)).thenReturn(true);
+        when(voyageRepository.existsById(1)).thenReturn(true);
+        when(ticketRepository.existsById(1)).thenReturn(true);
         when(ticketRepository.findAllByVoyage_id(1)).thenReturn(Arrays.asList(ticket));
 
         //When
@@ -562,7 +562,7 @@ public class RequestValidatorTest {
     @Test
     public void voyageIdSetOfTicketsValidatorNoTickets() {
         //Given
-        when(voyageRepository.exists(1)).thenReturn(true);
+        when(voyageRepository.existsById(1)).thenReturn(true);
 
         //When
         try {
@@ -592,9 +592,9 @@ public class RequestValidatorTest {
         voyage.setId(1);
         voyage.setTickets(tickets);
 
-        when(voyageRepository.exists(1)).thenReturn(true);
-        when(ticketRepository.exists(1)).thenReturn(true);
-        when(voyageRepository.findOne(1)).thenReturn(voyage);
+        when(voyageRepository.existsById(1)).thenReturn(true);
+        when(ticketRepository.existsById(1)).thenReturn(true);
+        when(voyageRepository.findById(1)).thenReturn(java.util.Optional.of(voyage));
 
         //When
         try {

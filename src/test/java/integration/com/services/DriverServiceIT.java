@@ -115,14 +115,6 @@ public class DriverServiceIT {
         Assert.assertEquals("[]", drivers.toString());
     }
 
-    @Test
-    public void findOneDriverNoEntity() {
-        //When
-        Driver driver = driverService.findOne(1);
-
-        //Then
-        Assert.assertEquals(null, driver);
-    }
 
     @Test
     public void findOneDriverWithEntity() {

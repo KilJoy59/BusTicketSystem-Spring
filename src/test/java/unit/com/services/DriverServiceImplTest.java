@@ -2,7 +2,7 @@ package unit.com.services;
 
 import com.entity.Driver;
 import com.repositories.DriverRepository;
-import com.services.DriverServiceImpl;
+import com.services.DriverService;
 import com.services.RequestValidator;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,7 +18,7 @@ public class DriverServiceImplTest {
     private DriverRepository driverRepository = mock(DriverRepository.class);
     private RequestValidator requestValidator = mock(RequestValidator.class);
 
-    private DriverServiceImpl driverService = new DriverServiceImpl();
+    private DriverService driverService = new DriverService();
 
     @Before
     public void start() {
@@ -47,7 +47,7 @@ public class DriverServiceImplTest {
         driver1.setId(1);
 
         //When
-        when(driverRepository.findOne(1)).thenReturn(driver1);
+        when(driverRepository.findById(1)).thenReturn(java.util.Optional.of(driver1));
 
         //Then
         Assert.assertEquals(driver1, driverService.findOne(1));

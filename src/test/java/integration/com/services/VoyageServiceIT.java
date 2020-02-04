@@ -4,6 +4,7 @@ import com.entity.Bus;
 import com.entity.Driver;
 import com.entity.Ticket;
 import com.entity.Voyage;
+
 import com.services.BusService;
 import com.services.DriverService;
 import com.services.TicketService;
@@ -250,67 +251,6 @@ public class VoyageServiceIT {
         Assert.assertEquals("[]", tickets.toString());
     }
 
-    @Test
-    public void addTicketsOnVoyage() {
-        //Given
-        Set<Ticket> tickets = new HashSet<>();
-        for (int i = 1; i < 5; i++) {
-            tickets.add(new Ticket(i, 2000));
-        }
-
-        Voyage voyage = new Voyage("JJD009");
-        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
-
-        //When
-        Voyage dbVoyage = voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-
-        //Then
-        Assert.assertEquals(4, dbVoyage.getTickets().size());
-    }
-
-    @Test
-    public void addTicketsOnVoyageAddMore() {
-        //Given
-        Set<Ticket> tickets = new HashSet<>();
-        for (int i = 1; i < 5; i++) {
-            tickets.add(new Ticket(i, 2000));
-        }
-
-        Set<Ticket> tickets1 = new HashSet<>();
-        for (int i = 5; i < 10; i++) {
-            tickets1.add(new Ticket(i, 2000));
-        }
-
-        Voyage voyage = new Voyage("JJD009");
-        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
-
-        //When
-        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-        Voyage dbVoyage1 = voyageService.addTicketsOnVoyage(bdVoyageID, tickets1);
-
-        //Then
-        Assert.assertEquals(9, dbVoyage1.getTickets().size());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addTicketsOnVoyageAddMoreWithSamePlace() {
-        //Given
-        Set<Ticket> tickets = new HashSet<>();
-        for (int i = 1; i < 5; i++) {
-            tickets.add(new Ticket(i, 2000));
-        }
-
-        Voyage voyage = new Voyage("JJD009");
-        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
-
-        //When
-        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-
-        //Then
-        Assert.fail();
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageNoTickets() {
         //Given
@@ -387,39 +327,6 @@ public class VoyageServiceIT {
         Assert.fail();
     }
 
-    @Test
-    public void sellTicket() {
-        //Given
-        Set<Ticket> tickets = new HashSet<>();
-        for (int i = 1; i < 5; i++) {
-            tickets.add(new Ticket(i, 2000));
-        }
-
-        Voyage voyage = new Voyage("JJD009");
-        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
-
-        //When
-        Voyage dbVoyage = voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-
-        //Then
-        Integer ticketId = dbVoyage.getTickets().iterator().next().getId();
-        Assert.assertEquals(ticketService.findOne(ticketId).isPaid(), false);
-
-        //When
-        voyageService.sellTicket(bdVoyageID, ticketId);
-
-        //Then
-        Assert.assertEquals(ticketService.findOne(ticketId).isPaid(), true);
-    }
-
-    @Test
-    public void findOneVoyageNoEntity() {
-        //When
-        Voyage voyage = voyageService.findOne(1);
-
-        //Then
-        Assert.assertEquals(null, voyage);
-    }
 
     @Test
     public void findOneVoyageWithEntity() {

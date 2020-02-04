@@ -5,7 +5,6 @@ import com.entity.Bus;
 import com.entity.Ticket;
 import com.entity.Voyage;
 import com.services.VoyageService;
-import com.services.VoyageServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class VoyageControllerTest {
 
-    private VoyageService voyageService = mock(VoyageServiceImpl.class);
+    private VoyageService voyageService = mock(VoyageService.class);
 
     private VoyageController voyageController = new VoyageController();
 

@@ -98,7 +98,7 @@ public class BusRepositoryIT {
         //When
         dbBus = busRepository.save(dbBus);
 
-        driverRepository.delete(dbDriver.getId());
+        driverRepository.delete(dbDriver);
 
         //Then
         Assert.assertEquals(dbBus.getDriver(), null);
@@ -144,22 +144,6 @@ public class BusRepositoryIT {
         //Then
         Assert.assertEquals(bus, bus1);
         Assert.assertNotSame(bus.getId(), bus1.getId());
-    }
-
-    @Test
-    public void addBusWithTheSameId() {
-        //Given
-        Bus bus = new Bus("AA1234AA", "RedBull");
-        bus = busRepository.save(bus);
-
-        Bus bus1 = new Bus("CC4343TT", "Tot");
-        bus1.setId(bus.getId());
-
-        //When
-        busRepository.save(bus1);
-
-        //Then
-        Assert.assertEquals(busRepository.findOne(bus.getId()), bus1);
     }
 
     @Test

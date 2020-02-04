@@ -3,7 +3,6 @@ package unit.com.controllers;
 import com.controllers.DriverController;
 import com.entity.Driver;
 import com.services.DriverService;
-import com.services.DriverServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class DriverControllerTest {
 
-    private DriverService driverService = mock(DriverServiceImpl.class);
+    private DriverService driverService = mock(DriverService.class);
 
     private DriverController driverController = new DriverController();
 

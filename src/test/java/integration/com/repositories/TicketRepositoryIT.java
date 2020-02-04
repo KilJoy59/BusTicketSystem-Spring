@@ -36,7 +36,7 @@ public class TicketRepositoryIT {
         }
 
         //When
-        ticketRepository.save(tickets);
+        ticketRepository.saveAll(tickets);
 
         //Then
         Set<Ticket> ticketsDb = new HashSet<>((ArrayList<Ticket>) ticketRepository.findAll());
@@ -95,22 +95,6 @@ public class TicketRepositoryIT {
         //Then
         Assert.assertEquals(ticket, ticket2);
         Assert.assertNotSame(ticket.getId(), ticket2.getId());
-    }
-
-    @Test
-    public void addTicketWithTheSameId() {
-        //Given
-        Ticket ticket = new Ticket(1, 30);
-        ticket = ticketRepository.save(ticket);
-
-        Ticket ticket2 = new Ticket(1, 30);
-        ticket2.setId(ticket.getId());
-
-        //When
-        ticketRepository.save(ticket2);
-
-        //Then
-        Assert.assertEquals(ticketRepository.findOne(ticket.getId()), ticket2);
     }
 
     @Test

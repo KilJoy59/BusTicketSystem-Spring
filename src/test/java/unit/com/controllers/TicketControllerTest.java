@@ -3,7 +3,6 @@ package unit.com.controllers;
 import com.controllers.TicketController;
 import com.entity.Ticket;
 import com.services.TicketService;
-import com.services.TicketServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class TicketControllerTest {
 
-    private TicketService ticketService = mock(TicketServiceImpl.class);
+    private TicketService ticketService = mock(TicketService.class);
 
     private TicketController ticketController = new TicketController();
 

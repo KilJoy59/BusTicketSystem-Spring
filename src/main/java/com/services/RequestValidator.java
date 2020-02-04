@@ -11,6 +11,7 @@ import com.repositories.VoyageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class RequestValidator {
         if (driver.getLicense() == null || driver.getName() == null || driver.getSurname() == null) {
             throw new IllegalArgumentException("Driver fields can't be null");
         }
-        if (driver.getId() != null && driverRepository.exists(driver.getId())) {
+        if (driver.getId() != null && driverRepository.existsById(driver.getId())) {
             throw new IllegalArgumentException("Driver with id " + driver.getId() + " exist");
         }
         if (driverRepository.findOneByLicense(driver.getLicense()) != null) {
@@ -44,7 +45,7 @@ public class RequestValidator {
         if (bus.getNumber() == null || bus.getModel() == null) {
             throw new IllegalArgumentException("Bus fields 'number' and 'model' can't be null");
         }
-        if (bus.getId() != null && busRepository.exists(bus.getId())) {
+        if (bus.getId() != null && busRepository.existsById(bus.getId())) {
             throw new IllegalArgumentException("Bus with id " + bus.getId() + " exist");
         }
         if (busRepository.findOneByNumber(bus.getNumber()) != null) {
@@ -59,11 +60,11 @@ public class RequestValidator {
         if (busId <= 0 || driverId <= 0) {
             throw new IllegalArgumentException("Bus id or Driver id can't be <= 0");
         }
-        if (!driverRepository.exists(driverId) || !busRepository.exists(busId)) {
+        if (!driverRepository.existsById(driverId) || !busRepository.existsById(busId)) {
             throw new IllegalArgumentException("Bus with id " + busId + " or Driver with id " + driverId + " not exist");
         }
 
-        Bus bus = busRepository.findOne(busId);
+        Bus bus = busRepository.findById(busId).orElseThrow(() -> new EntityNotFoundException("Not found"));
         if (bus.getDriver() != null && bus.getDriver().getId().equals(driverId)) {
             throw new IllegalArgumentException("Driver with id " + driverId + " already on Bus " + busId);
         }
@@ -85,7 +86,7 @@ public class RequestValidator {
         if (voyage.getNumber() == null) {
             throw new IllegalArgumentException("Voyage field 'number' can't be null");
         }
-        if (voyage.getId() != null && voyageRepository.exists(voyage.getId())) {
+        if (voyage.getId() != null && voyageRepository.existsById(voyage.getId())) {
             throw new IllegalArgumentException("Voyage with id " + voyage.getId() + " exist");
         }
         if (voyageRepository.findOneByNumber(voyage.getNumber()) != null) {
@@ -100,11 +101,11 @@ public class RequestValidator {
         if (voyageId <= 0 || busId <= 0) {
             throw new IllegalArgumentException("Voyage id or Bus id can't be <= 0");
         }
-        if (!busRepository.exists(busId) || !voyageRepository.exists(voyageId)) {
+        if (!busRepository.existsById(busId) || !voyageRepository.existsById(voyageId)) {
             throw new IllegalArgumentException("Voyage with id " + voyageId + " or Bus with id " + busId + " not exist");
         }
 
-        Voyage voyage = voyageRepository.findOne(voyageId);
+        Voyage voyage = voyageRepository.findById(voyageId).orElseThrow(() -> new EntityNotFoundException("Not found"));
         if (voyage.getBus() != null && voyage.getBus().getId().equals(busId)) {
             throw new IllegalArgumentException("Bus with id " + busId + " already on Voyage " + voyageId);
         }
@@ -126,14 +127,14 @@ public class RequestValidator {
         if (voyageId <= 0) {
             throw new IllegalArgumentException("Voyage id can't be <= 0");
         }
-        if (!voyageRepository.exists(voyageId)) {
+        if (!voyageRepository.existsById(voyageId)) {
             throw new IllegalArgumentException("Voyage with id " + voyageId + " not exist");
         }
         if (tickets.size() == 0) {
             throw new IllegalArgumentException("No Tickets");
         }
 
-        Voyage dbVoyage = voyageRepository.findOne(voyageId);
+        Voyage dbVoyage = voyageRepository.findById(voyageId).orElseThrow(() -> new EntityNotFoundException("Not found"));
         for (Ticket ticket : tickets) {
             if (ticket != null && (ticket.getVoyage() != null || dbVoyage.getTickets() != null)) {
                 for (Ticket voyageTicket : dbVoyage.getTickets()) {
@@ -152,7 +153,7 @@ public class RequestValidator {
         if (voyageId <= 0 || ticketId <= 0) {
             throw new IllegalArgumentException("Voyage id or Ticket id can't be <= 0");
         }
-        if (!voyageRepository.exists(voyageId) || !ticketRepository.exists(ticketId)) {
+        if (!voyageRepository.existsById(voyageId) || !ticketRepository.existsById(ticketId)) {
             throw new IllegalArgumentException("Voyage with id " + voyageId + " or Ticket with id " + ticketId + " not exist");
         }
 

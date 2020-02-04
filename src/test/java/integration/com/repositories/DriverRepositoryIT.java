@@ -90,7 +90,7 @@ public class DriverRepositoryIT {
         driverRepository.save(driver2);
 
         //Then
-        Assert.assertEquals(driverRepository.findOne(driver.getId()), driver2);
+        Assert.assertEquals(driverRepository.findById(driver.getId()).get(), driver2);
     }
 
     @Test

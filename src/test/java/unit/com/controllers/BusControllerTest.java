@@ -4,7 +4,6 @@ import com.controllers.BusController;
 import com.entity.Bus;
 import com.entity.Driver;
 import com.services.BusService;
-import com.services.BusServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,7 @@ import static org.mockito.Mockito.*;
 
 public class BusControllerTest {
 
-    private BusService busService = mock(BusServiceImpl.class);
+    private BusService busService = mock(BusService.class);
 
     private BusController busController = new BusController();
 
